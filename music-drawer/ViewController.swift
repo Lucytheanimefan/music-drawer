@@ -12,10 +12,13 @@ class ViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.view.window?.title="Music Drawer"
     }
-
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        preferredContentSize=view.fittingSize
+    }
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
