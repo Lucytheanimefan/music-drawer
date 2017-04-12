@@ -12,6 +12,8 @@
 		7C6FA5101E9DD70F006BF711 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C6FA50F1E9DD70F006BF711 /* Assets.xcassets */; };
 		7C6FA5131E9DD70F006BF711 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C6FA5111E9DD70F006BF711 /* Main.storyboard */; };
 		7C6FA51E1E9DD70F006BF711 /* music_drawerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6FA51D1E9DD70F006BF711 /* music_drawerTests.swift */; };
+		7C6FA52A1E9DD9BE006BF711 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6FA5291E9DD9BE006BF711 /* CoreAudio.framework */; };
+		7C6FA52C1E9DDB32006BF711 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6FA52B1E9DDB32006BF711 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,8 @@
 		7C6FA5191E9DD70F006BF711 /* music-drawerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "music-drawerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6FA51D1E9DD70F006BF711 /* music_drawerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = music_drawerTests.swift; sourceTree = "<group>"; };
 		7C6FA51F1E9DD70F006BF711 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C6FA5291E9DD9BE006BF711 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		7C6FA52B1E9DDB32006BF711 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C6FA52C1E9DDB32006BF711 /* AVFoundation.framework in Frameworks */,
+				7C6FA52A1E9DD9BE006BF711 /* CoreAudio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +66,7 @@
 				7C6FA50A1E9DD70F006BF711 /* music-drawer */,
 				7C6FA51C1E9DD70F006BF711 /* music-drawerTests */,
 				7C6FA5091E9DD70F006BF711 /* Products */,
+				7C6FA5281E9DD9BE006BF711 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,6 +98,15 @@
 				7C6FA51F1E9DD70F006BF711 /* Info.plist */,
 			);
 			path = "music-drawerTests";
+			sourceTree = "<group>";
+		};
+		7C6FA5281E9DD9BE006BF711 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7C6FA52B1E9DDB32006BF711 /* AVFoundation.framework */,
+				7C6FA5291E9DD9BE006BF711 /* CoreAudio.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

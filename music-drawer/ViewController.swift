@@ -7,17 +7,22 @@
 //
 
 import Cocoa
+import CoreAudio
+import AVFoundation
 
 class ViewController: NSViewController {
-
+    
+    let audioRecorder = AVAudioRecorder()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.window?.title="Music Drawer"
+        
     }
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        preferredContentSize=view.fittingSize
+        self.view.window?.setFrame(NSRect(x:0,y:0,width:10000,height:10000), display: true)
     }
     override var representedObject: Any? {
         didSet {
@@ -25,6 +30,14 @@ class ViewController: NSViewController {
         }
     }
 
+    @IBAction func record(_ sender: Any) {
+        audioRecorder.record()
+        var timer = Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.stop), userInfo: nil, repeats: true);
+    }
+    
+    func stop(){
+        audioRecorder.stop()
+    }
 
 }
 
