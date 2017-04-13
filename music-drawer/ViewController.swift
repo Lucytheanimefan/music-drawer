@@ -12,12 +12,13 @@ import AVFoundation
 
 class ViewController: NSViewController {
     
-    let audioRecorder = try AVAudioRecorder()
+    let audioRecorder = AVAudioRecorder()
+    let audio = AVCaptureAudioFileOutput()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.window?.title="Music Drawer"
-        audioRecorder.prepareToRecord()
+        //audioRecorder.prepareToRecord()
         
     }
     
@@ -32,7 +33,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func record(_ sender: Any) {
-        audioRecorder.record()
+        audio.startRecording(toOutputFileURL: <#T##URL!#>, outputFileType: <#T##String!#>, recordingDelegate: <#T##AVCaptureFileOutputRecordingDelegate!#>)
     }
     
     @IBAction func stop(_ sender: Any) {
