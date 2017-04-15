@@ -7,9 +7,10 @@
 //
 
 import Cocoa
+import AVFoundation
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate,AVAudioRecorderDelegate {
 
 
 
@@ -21,6 +22,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        print("Done recording: file path")
+        print(recorder.url.absoluteURL)
+        print(recorder.debugDescription)
+    }
 
 }
 

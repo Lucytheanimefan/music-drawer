@@ -694,7 +694,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="record:" target="XfG-lQ-9wD" id="EJR-Wn-vcB"/>
+                                    <action selector="record:" target="XfG-lQ-9wD" id="3ca-mr-r8b"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ujW-Nx-d7N">
@@ -705,7 +705,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="stop:" target="XfG-lQ-9wD" id="dgs-2e-GCB"/>
+                                    <action selector="stop:" target="XfG-lQ-9wD" id="pz0-mL-4CT"/>
                                 </connections>
                             </button>
                         </subviews>
