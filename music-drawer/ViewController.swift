@@ -25,6 +25,7 @@ class ViewController: NSViewController, AVAudioRecorderDelegate,AVAudioPlayerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.window?.title="Music Drawer"
+        setupRecorder()
         /*
         var recordSettings = [
             AVFormatIDKey: kAudioFormatAppleLossless,
@@ -71,7 +72,7 @@ class ViewController: NSViewController, AVAudioRecorderDelegate,AVAudioPlayerDel
         if let err = error {
             print("AVAudioRecorder error: \(err.localizedDescription)")
         } else {
-            audioRecorder.delegate =  NSApplication.shared().delegate as? AVAudioRecorderDelegate
+            audioRecorder.delegate =  self//NSApplication.shared().delegate as? AVAudioRecorderDelegate
            audioRecorder.prepareToRecord()
         }
     }
@@ -85,7 +86,7 @@ class ViewController: NSViewController, AVAudioRecorderDelegate,AVAudioPlayerDel
         if let err = error {
             print("AVAudioPlayer error: \(err.localizedDescription)")
         } else {
-            audioPlayer.delegate = self
+            audioPlayer.delegate = self//NSApplication.shared().delegate
             audioPlayer.prepareToPlay()
             audioPlayer.volume = 1.0
         }
