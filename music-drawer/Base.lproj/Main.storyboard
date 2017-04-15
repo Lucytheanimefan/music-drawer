@@ -698,18 +698,22 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ujW-Nx-d7N">
-                                <rect key="frame" x="294" y="13" width="69" height="32"/>
+                                <rect key="frame" x="296" y="13" width="66" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cO4-At-ysS">
+                                <buttonCell key="cell" type="push" title="Play" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cO4-At-ysS">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="stop:" target="XfG-lQ-9wD" id="pz0-mL-4CT"/>
+                                    <action selector="playSound:" target="XfG-lQ-9wD" id="b46-OP-vCW"/>
                                 </connections>
                             </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="playButton" destination="ujW-Nx-d7N" id="R5h-M6-RxA"/>
+                        <outlet property="recordButton" destination="6Nu-8s-ebv" id="bEh-xt-XTy"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
