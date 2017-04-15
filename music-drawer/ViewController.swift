@@ -11,33 +11,82 @@ import CoreAudio
 import AVFoundation
 
 class ViewController: NSViewController {
-    
-    let audioRecorder = AVAudioRecorder()
-    let audio = AVCaptureAudioFileOutput()
+    var audioRecording = AVAudioPlayer()
+    var receivedAudio:RecordedAudio!
+    var audioEngine:AVAudioEngine!
+    var audioFile:AVAudioFile!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.window?.title="Music Drawer"
+        initAudioEngine()
         //audioRecorder.prepareToRecord()
         
     }
     
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        self.view.window?.setFrame(NSRect(x:0,y:0,width:10000,height:10000), display: true)
-    }
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
     }
+    
+    func initAudioEngine(){
+
+        audioRecording = AVAudioPlayer(contentsOf: receivedAudio.filePathURL as URL)
+        audioRecording.enableRate = true
+        
+        audioEngine = AVAudioEngine()
+    }
 
     @IBAction func record(_ sender: Any) {
-        audio.startRecording(toOutputFileURL: <#T##URL!#>, outputFileType: <#T##String!#>, recordingDelegate: <#T##AVCaptureFileOutputRecordingDelegate!#>)
+        audioRecording.stop()
+        audioRecording.currentTime = 0
+        audioRecording.play()
     }
     
     @IBAction func stop(_ sender: Any) {
-        audioRecorder.stop()
+        //audioRecorder.stop()
+        audioRecording.stop()
+    }
+    
+   func setupAudioPlayerWithFile(file:NSString, type:NSString) -> AVAudioPlayer  {
+        audioFile = AVAudioFile(forWriting: receivedAudio.filePathURL as URL, settings: [""])
+        //1
+        var path = Bundle.main.path(forResource: file as String, ofType: type as String)
+        var url = NSURL.fileURL(withPath: path!)
+        
+        //2
+        var error: NSError?
+        
+        //3
+        var audioPlayer:AVAudioPlayer?
+        audioPlayer = AVAudioPlayer(contentsOf: url)
+
+        //4
+        return audioPlayer!
+    }
+    
+    func playAudioWithVariablePitch(pitch: Float) {
+        audioRecording.stop()
+        audioEngine.stop()
+        audioEngine.reset()
+        
+        var audioPlayerNode = AVAudioPlayerNode()
+        audioEngine.attach(audioPlayerNode)
+        
+        var changePitchEffect = AVAudioUnitTimePitch()
+        changePitchEffect.pitch = pitch
+        audioEngine.attach(changePitchEffect)
+        
+        audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
+        audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
+        
+        audioPlayerNode.scheduleFile(audioFile, at: nil, completionHandler: nil)
+        //audioEngine.startAndReturnError(nil)
+        
+        audioPlayerNode.play()
+        
+        
     }
 
 }
@@ -45,7 +94,7 @@ class ViewController: NSViewController {
 extension ViewController: AVAudioRecorderDelegate{
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         print("Done recording: file path")
-        print(audioRecorder.url.absoluteString)
+        //print(audioRecorder.url.absoluteString)
     }
     
 }
