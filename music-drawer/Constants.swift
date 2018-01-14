@@ -7,6 +7,16 @@
 //
 
 import Foundation
+import Cocoa
+
+enum AppStoryboard : String {
+    case Main = "Main"
+    
+    var instance : NSStoryboard {
+        return NSStoryboard(name: self.rawValue, bundle: Bundle.main)
+    }
+}
+
 
 struct Constants{
     static let FRAME_COUNT = 64

@@ -14,59 +14,14 @@ class ViewController: NSViewController {
     
     var audioInputAvailable = true
     
-    var musicLoader: MusicLoader!
-    
     @IBOutlet var debugView: NSTextView!
     
-    private var _audioFile:URL!
-    var audioFile:URL {
-        get {
-            return self._audioFile
-        }
-        set{
-            self._audioFile = newValue
-            self.playButton.isEnabled = (newValue.absoluteString != "" && newValue != nil)
-        }
-    }
-    
     @IBOutlet weak var fileNameLabel: NSTextField!
-    @IBOutlet weak var playButton: NSButton!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
-    
-//    func preparePlayer() {
-//        do{
-//            try audioPlayer = AVAudioPlayer(contentsOf: self.audioFile)
-//            audioPlayer.delegate = self//NSApplication.shared().delegate
-//            audioPlayer.prepareToPlay()
-//            audioPlayer.volume = 1.0
-//        }
-//        catch
-//        {
-//            print(error)
-//        }
-//    }
-    
-   
-    @IBAction func playSound(_ sender: NSButton) {
-//        if (sender.title == "Play"){
-//            sender.title = "Stop"
-//            preparePlayer()
-//            audioPlayer.play()
-//        } else {
-//            audioPlayer.stop()
-//            sender.title = "Play"
-//        }
-        
-        musicLoader = MusicLoader()
-        musicLoader.delegate = self
-        musicLoader.begin(file: audioFile)
-    }
-    
     
     @IBAction func uploadMusic(_ sender: NSButton) {
         let panel = NSOpenPanel()
@@ -80,7 +35,7 @@ class ViewController: NSViewController {
         
         if (panel.runModal() == NSModalResponseOK){
             if let filePath = panel.url {
-                self.audioFile = filePath
+                MusicManager.shared.audioFile = filePath
                 self.fileNameLabel.stringValue = filePath.absoluteString
             }
         }
