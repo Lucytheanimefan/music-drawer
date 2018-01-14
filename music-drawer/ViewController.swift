@@ -10,92 +10,57 @@ import Cocoa
 import CoreAudio
 import AVFoundation
 
-class ViewController: NSViewController, AVAudioRecorderDelegate,AVAudioPlayerDelegate {
-    let recorderFilePath = NSURL.fileURL(withPath: "/Users/lucyzhang/Github/music-drawer/recordings/test.wav")
-    let fileName = "test.wav"
-    var audioRecorder:AVAudioRecorder!
+class ViewController: NSViewController, AVAudioPlayerDelegate {
     var audioPlayer:AVAudioPlayer!
     
     var audioInputAvailable = true
     
-    @IBOutlet weak var playButton: NSButton!
-    
-    @IBOutlet weak var recordButton: NSButton!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.window?.title="Music Drawer"
-        setupRecorder()
-        /*
-        var recordSettings = [
-            AVFormatIDKey: kAudioFormatAppleLossless,
-            AVEncoderAudioQualityKey : AVAudioQuality.medium.rawValue,
-            AVEncoderBitRateKey : 16,
-            AVNumberOfChannelsKey: 2,
-            AVSampleRateKey : 44100.0
-        ] as [String : Any]
-        try! audioRecorder = AVAudioRecorder(url: recorderFilePath, settings: recordSettings)
-        audioRecorder?.delegate = NSApplication.shared().delegate as? AVAudioRecorderDelegate
-        
-        //prepare to record
-        audioRecorder?.prepareToRecord()
- */
-
-        
-    }
-    
-    func getFileURL() -> NSURL {
-        
-        let filePath = NSURL.fileURL(withPath: "/Users/lucyzhang/Github/music-drawer/recordings/test.wav")
-        
-        return filePath as NSURL
-    }
-    
-    
-    func setupRecorder() {
-        
-        //set the settings for recorder
-        
-        var recordSettings = [
-            AVFormatIDKey: kAudioFormatAppleLossless,
-            AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
-            AVEncoderBitRateKey : 320000,
-            AVNumberOfChannelsKey: 2,
-            AVSampleRateKey : 44100.0
-        ] as [String : Any]
-        
-        var error: NSError?
-
-        
-        try? audioRecorder = AVAudioRecorder(url: getFileURL() as URL, settings: recordSettings)
-        
-        if let err = error {
-            print("AVAudioRecorder error: \(err.localizedDescription)")
-        } else {
-            audioRecorder.delegate =  self//NSApplication.shared().delegate as? AVAudioRecorderDelegate
-           audioRecorder.prepareToRecord()
+    private var _audioFile:URL!
+    var audioFile:URL {
+        get {
+            return self._audioFile
+        }
+        set{
+            self._audioFile = newValue
+            self.playButton.isEnabled = (newValue.absoluteString != "" && newValue != nil)
         }
     }
     
+    @IBOutlet weak var fileNameLabel: NSTextField!
+    @IBOutlet weak var playButton: NSButton!
+
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
+    func getFileURL() -> URL? {
+        
+        let filePath = Bundle.main.url(forResource: "angel_beats_short", withExtension: "wav")
+        
+        return filePath
+    }
+    
+    
     func preparePlayer() {
-        var error: NSError?
         
-        try? audioPlayer = AVAudioPlayer(contentsOf: getFileURL() as URL)
-        //audioPlayer = AVAudioPlayer(contentsOfURL: typeFileURL, error: &error)
-        
-        if let err = error {
-            print("AVAudioPlayer error: \(err.localizedDescription)")
-        } else {
+        do{
+            try audioPlayer = AVAudioPlayer(contentsOf: self.audioFile)
             audioPlayer.delegate = self//NSApplication.shared().delegate
             audioPlayer.prepareToPlay()
             audioPlayer.volume = 1.0
         }
+        catch
+        {
+            print(error)
+        }
+        
     }
     
    
     @IBAction func playSound(_ sender: NSButton) {
         if (sender.title == "Play"){
-            recordButton.isEnabled = false
             sender.title = "Stop"
             preparePlayer()
             audioPlayer.play()
@@ -106,39 +71,29 @@ class ViewController: NSViewController, AVAudioRecorderDelegate,AVAudioPlayerDel
     }
     
     
-    @IBAction func record(_ sender: NSButton) {
-        if (sender.title == "Record"){
-            audioRecorder.record()
-            sender.title = "Stop"
-            playButton.isEnabled = false
-        } else {
-            audioRecorder.stop()
-            sender.title = "Record"
+    @IBAction func uploadMusic(_ sender: NSButton) {
+        let panel = NSOpenPanel()
+        panel.title = "Choose a file"
+        panel.showsResizeIndicator    = true;
+        panel.showsHiddenFiles        = false;
+        panel.canChooseDirectories    = true;
+        panel.canCreateDirectories    = true;
+        panel.allowsMultipleSelection = false;
+        panel.allowedFileTypes        = ["wav", "mp3"];
+        
+        if (panel.runModal() == NSModalResponseOK){
+            if let filePath = panel.url {
+                self.audioFile = filePath
+                self.fileNameLabel.stringValue = filePath.absoluteString
+            }
         }
     }
-
+    
+ 
     override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
         }
-    }
-    
-    
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-    playButton.isEnabled = true
-    recordButton.title = "Record"
-    }
-    
-    func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder!, error: Error!) {
-        print("Error while recording audio \(error.localizedDescription)")
-    }
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        recordButton.isEnabled = true
-        playButton.title = "Play"
-    }
-    
-    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer!, error: Error!) {
-        print("Error while playing audio \(error.localizedDescription)")
     }
     
     

@@ -15,6 +15,7 @@
 		7C6FA52A1E9DD9BE006BF711 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6FA5291E9DD9BE006BF711 /* CoreAudio.framework */; };
 		7C6FA52C1E9DDB32006BF711 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6FA52B1E9DDB32006BF711 /* AVFoundation.framework */; };
 		7C6FA53C1EA1C58A006BF711 /* RecordedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6FA53B1EA1C58A006BF711 /* RecordedAudio.swift */; };
+		7CA24472200BA66B00020BFE /* angel_beats_short.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CA24471200BA66B00020BFE /* angel_beats_short.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		7C6FA5291E9DD9BE006BF711 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		7C6FA52B1E9DDB32006BF711 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7C6FA53B1EA1C58A006BF711 /* RecordedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordedAudio.swift; sourceTree = "<group>"; };
+		7CA24471200BA66B00020BFE /* angel_beats_short.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = angel_beats_short.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			children = (
 				7C6FA50B1E9DD70F006BF711 /* AppDelegate.swift */,
 				7C6FA50D1E9DD70F006BF711 /* ViewController.swift */,
+				7CA24471200BA66B00020BFE /* angel_beats_short.wav */,
 				7C6FA50F1E9DD70F006BF711 /* Assets.xcassets */,
 				7C6FA5111E9DD70F006BF711 /* Main.storyboard */,
 				7C6FA5141E9DD70F006BF711 /* Info.plist */,
@@ -199,6 +202,7 @@
 			files = (
 				7C6FA5101E9DD70F006BF711 /* Assets.xcassets in Resources */,
 				7C6FA5131E9DD70F006BF711 /* Main.storyboard in Resources */,
+				7CA24472200BA66B00020BFE /* angel_beats_short.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +429,7 @@
 				7C6FA5241E9DD70F006BF711 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7C6FA5251E9DD70F006BF711 /* Build configuration list for PBXNativeTarget "music-drawerTests" */ = {
 			isa = XCConfigurationList;
@@ -433,6 +438,7 @@
 				7C6FA5271E9DD70F006BF711 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
