@@ -16,6 +16,8 @@
 		7C6FA52C1E9DDB32006BF711 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6FA52B1E9DDB32006BF711 /* AVFoundation.framework */; };
 		7C6FA53C1EA1C58A006BF711 /* RecordedAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6FA53B1EA1C58A006BF711 /* RecordedAudio.swift */; };
 		7CA24472200BA66B00020BFE /* angel_beats_short.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CA24471200BA66B00020BFE /* angel_beats_short.wav */; };
+		7CA24474200BAF7A00020BFE /* MusicLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA24473200BAF7A00020BFE /* MusicLoader.swift */; };
+		7CA24476200BB04400020BFE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA24475200BB04400020BFE /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +44,8 @@
 		7C6FA52B1E9DDB32006BF711 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7C6FA53B1EA1C58A006BF711 /* RecordedAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordedAudio.swift; sourceTree = "<group>"; };
 		7CA24471200BA66B00020BFE /* angel_beats_short.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = angel_beats_short.wav; sourceTree = "<group>"; };
+		7CA24473200BAF7A00020BFE /* MusicLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLoader.swift; sourceTree = "<group>"; };
+		7CA24475200BB04400020BFE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,8 @@
 				7C6FA5111E9DD70F006BF711 /* Main.storyboard */,
 				7C6FA5141E9DD70F006BF711 /* Info.plist */,
 				7C6FA53B1EA1C58A006BF711 /* RecordedAudio.swift */,
+				7CA24473200BAF7A00020BFE /* MusicLoader.swift */,
+				7CA24475200BB04400020BFE /* Constants.swift */,
 			);
 			path = "music-drawer";
 			sourceTree = "<group>";
@@ -220,6 +226,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CA24476200BB04400020BFE /* Constants.swift in Sources */,
+				7CA24474200BAF7A00020BFE /* MusicLoader.swift in Sources */,
 				7C6FA53C1EA1C58A006BF711 /* RecordedAudio.swift in Sources */,
 				7C6FA50E1E9DD70F006BF711 /* ViewController.swift in Sources */,
 				7C6FA50C1E9DD70F006BF711 /* AppDelegate.swift in Sources */,

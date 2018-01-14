@@ -10,10 +10,13 @@ import Cocoa
 import CoreAudio
 import AVFoundation
 
-class ViewController: NSViewController, AVAudioPlayerDelegate {
-    var audioPlayer:AVAudioPlayer!
+class ViewController: NSViewController {
     
     var audioInputAvailable = true
+    
+    var musicLoader: MusicLoader!
+    
+    @IBOutlet var debugView: NSTextView!
     
     private var _audioFile:URL!
     var audioFile:URL {
@@ -35,39 +38,33 @@ class ViewController: NSViewController, AVAudioPlayerDelegate {
         
     }
     
-    func getFileURL() -> URL? {
-        
-        let filePath = Bundle.main.url(forResource: "angel_beats_short", withExtension: "wav")
-        
-        return filePath
-    }
-    
-    
-    func preparePlayer() {
-        
-        do{
-            try audioPlayer = AVAudioPlayer(contentsOf: self.audioFile)
-            audioPlayer.delegate = self//NSApplication.shared().delegate
-            audioPlayer.prepareToPlay()
-            audioPlayer.volume = 1.0
-        }
-        catch
-        {
-            print(error)
-        }
-        
-    }
+//    func preparePlayer() {
+//        do{
+//            try audioPlayer = AVAudioPlayer(contentsOf: self.audioFile)
+//            audioPlayer.delegate = self//NSApplication.shared().delegate
+//            audioPlayer.prepareToPlay()
+//            audioPlayer.volume = 1.0
+//        }
+//        catch
+//        {
+//            print(error)
+//        }
+//    }
     
    
     @IBAction func playSound(_ sender: NSButton) {
-        if (sender.title == "Play"){
-            sender.title = "Stop"
-            preparePlayer()
-            audioPlayer.play()
-        } else {
-            audioPlayer.stop()
-            sender.title = "Play"
-        }
+//        if (sender.title == "Play"){
+//            sender.title = "Stop"
+//            preparePlayer()
+//            audioPlayer.play()
+//        } else {
+//            audioPlayer.stop()
+//            sender.title = "Play"
+//        }
+        
+        musicLoader = MusicLoader()
+        musicLoader.delegate = self
+        musicLoader.begin(file: audioFile)
     }
     
     
@@ -98,4 +95,23 @@ class ViewController: NSViewController, AVAudioPlayerDelegate {
     
     
 }
+
+extension ViewController: MusicLoaderDelegate{
+    func onPlay() {
+        
+    }
+    
+    func dealWithFFTMagnitudes(magnitudes: [Float]) {
+        DispatchQueue.main.async {
+            self.debugView.string = magnitudes.description
+        }
+    }
+    
+    
+}
+
+
+
+
+
 
