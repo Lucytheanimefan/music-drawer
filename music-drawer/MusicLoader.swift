@@ -123,9 +123,9 @@ class MusicLoader: NSObject {
         
         delegate.dealWithFFTMagnitudes(magnitudes: normalizedMagnitudes)
         
-        #if DEBUG
-            os_log("%@: FFT magnitudes: %@", self.description,  normalizedMagnitudes)
-        #endif
+        //#if DEBUG
+            //os_log("%@: FFT magnitudes: %@", self.description,  normalizedMagnitudes)
+        //#endif
         
         let buffer = Buffer(elements: normalizedMagnitudes)
         

@@ -9,6 +9,7 @@
 import Cocoa
 
 import SceneKit
+import os.log
 
 class VisualViewController: NSViewController {
     
@@ -17,7 +18,12 @@ class VisualViewController: NSViewController {
     
     var fftMagnitudes = [Float]()
     
-    let particleSystem = SCNParticleSystem(named: "Explosion", inDirectory: nil)!
+    lazy var particleSystem:SCNParticleSystem =
+        {
+            let system = SCNParticleSystem(named: "Explosion", inDirectory: nil)!
+            system.loops = false
+            return system
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,11 +66,16 @@ class VisualViewController: NSViewController {
         addNode(node: omniLightNode)
     }
     
-    func addParticleSystem(particleSystem: SCNParticleSystem){
-        let systemNode = SCNNode()
-        systemNode.addParticleSystem(particleSystem)
+    func addParticleSystem(particleSystem: SCNParticleSystem, name:String = ""){
+        let systemNode = particleNode(particleSystem: particleSystem, name: name)
         addNode(node: systemNode)
-        
+    }
+    
+    func particleNode(particleSystem: SCNParticleSystem, name:String) -> SCNNode{
+        let systemNode = SCNNode()
+        systemNode.name = name
+        systemNode.addParticleSystem(particleSystem)
+        return systemNode
     }
     
     func addBox(){
@@ -82,7 +93,9 @@ class VisualViewController: NSViewController {
 
 extension VisualViewController: SCNSceneRendererDelegate{
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
+        if let node = getNode(name: "particle"){
+            os_log("%@: Particle birth rate: %@", self.description, node.particleSystems![0].birthRate)
+        }
     }
 }
 
@@ -94,48 +107,62 @@ extension VisualViewController: SCNPhysicsContactDelegate{
 extension VisualViewController: MusicLoaderDelegate{
     func onPlay() {
         print("PLAY MUSIC")
+        addParticleSystem(particleSystem: self.particleSystem, name: "particle0")
         //addParticleSystem(particleSystem: self.particleSystem)
-        addBox()
+        //addBox()
         
     }
     
     func dealWithFFTMagnitudes(magnitudes: [Float]) {
-        
-        let node = self.sceneView.scene?.rootNode.childNode(withName: "box", recursively: true)
-        
-        // Remove existing particle systems
-//        self.sceneView.scene?.rootNode.childNodes.forEach({ (node) in
-//            node.removeAllParticleSystems()
-//        })
-//
-//        //if let systems = self.sceneView.scene?.rootNode.childNodes[0].particleSystems{
-//        //let system = systems[0]
-        for (index, magnitude) in magnitudes.enumerated(){
-            if (self.fftMagnitudes.count > index){
-                let m = magnitude/self.fftMagnitudes[index]
-                (node?.geometry as! SCNBox).chamferRadius = CGFloat(m)
-            }
-//            let m = CGFloat(10*magnitude)
-//            let system = self.particleSystem.copy() as! SCNParticleSystem
-//            system.particleColor = NSColor(calibratedRed: m, green: m*m, blue: m*m*m, alpha: m)
-//
-//            if (self.fftMagnitudes.count > index)
-//            {
-//                if (magnitude > 2*self.fftMagnitudes[index]){
-//                    let factor:Float = 20.0
-//                    system.particleLifeSpan = CGFloat(magnitude*factor)
-//                    addParticleSystem(particleSystem: system)
-//                }
-//            }
-       }
-        //}
+        updateParticleSystem(fftMagnitudes: magnitudes)
         self.fftMagnitudes = magnitudes
     }
     
-    func addMagnitudeParticleSystem(magnitude:Float){
-        let particle = self.particleSystem.copy() as! SCNParticleSystem
-        particle.birthRate = CGFloat(magnitude)
-        addParticleSystem(particleSystem: particle)
+    func getNode(name:String) -> SCNNode?{
+        return self.sceneView.scene?.rootNode.childNode(withName: name, recursively: true)
     }
     
+    func updateBox(fftMagnitudes:[Float]){
+        let node = getNode(name: "box")
+        guard node != nil else{
+            return
+        }
+        for (index, magnitude) in fftMagnitudes.enumerated(){
+            if (self.fftMagnitudes.count > index){
+                let m = magnitude/self.fftMagnitudes[index]
+                (node!.geometry as! SCNBox).chamferRadius = CGFloat(m)
+            }
+        }
+    }
+    
+    func updateParticleSystem(fftMagnitudes:[Float]){
+        let nodes = (self.sceneView.scene?.rootNode.childNodes)!
+        
+        for (index, magnitude) in fftMagnitudes.enumerated(){
+            guard (nodes.count) > index else {
+                let newSystem = self.particleSystem.copy() as! SCNParticleSystem
+                addParticleSystem(particleSystem: newSystem, name: "particle\(index)")
+                return
+            }
+            let node = nodes[index]
+            if let systems = node.particleSystems{
+                guard systems.count > 0 else {
+                    return
+                }
+                let system = systems[0]
+                if (self.fftMagnitudes.count > index)
+                {
+                    if (magnitude > 1.5*self.fftMagnitudes[index])
+                    {
+                        let m = CGFloat(10000*magnitude)
+                        let newSystem = system.copy() as! SCNParticleSystem
+                        newSystem.birthRate = m
+                        let newNode = particleNode(particleSystem: newSystem, name: "particle\(index)")
+                        self.sceneView.scene?.rootNode.replaceChildNode(node, with: newNode)
+                    }
+                }
+                
+            }
+        }
+    }
 }
