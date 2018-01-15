@@ -62,8 +62,7 @@ class MusicLoader: NSObject {
                              bufferSize: size,
                              format: mixerNode.outputFormat(forBus: 0)) { (buffer, time) in self.fftTransform(buffer: buffer)
         }
-        
-        //FFTTransformer().transform(buffer: <#T##AVAudioPCMBuffer#>)
+
         audioEngine.prepare()
         do
         {

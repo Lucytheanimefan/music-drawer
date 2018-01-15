@@ -91,19 +91,42 @@ extension VisualViewController: SCNPhysicsContactDelegate{
 extension VisualViewController: MusicLoaderDelegate{
     func onPlay() {
         print("PLAY MUSIC")
+        addParticleSystem(particleSystem: self.particleSystem)
         //addBox()
-       
+        
     }
     
     func dealWithFFTMagnitudes(magnitudes: [Float]) {
+        
+        // Remove existing particle systems
+        self.sceneView.scene?.rootNode.childNodes.forEach({ (node) in
+            node.removeAllParticleSystems()
+        })
+        
+        //if let systems = self.sceneView.scene?.rootNode.childNodes[0].particleSystems{
+        //let system = systems[0]
         for (index, magnitude) in magnitudes.enumerated(){
+            let m = CGFloat(10*magnitude)
+            let system = self.particleSystem.copy() as! SCNParticleSystem
+            system.particleColor = NSColor(calibratedRed: m, green: m*m, blue: m*m*m, alpha: m)
+            
+            //system.acceleration = SCNVector3Make(m, m*m, m*m*m)
+            
+            
             if (self.fftMagnitudes.count > index)
             {
-                let factor = (magnitude > 1.5*self.fftMagnitudes[index]) ? 1 : 1
-                addMagnitudeParticleSystem(magnitude: Float(factor)*magnitude)
+                if (magnitude > 2*self.fftMagnitudes[index]){
+                    let factor:Float = 20.0
+                    system.particleLifeSpan = CGFloat(magnitude*factor)
+                    addParticleSystem(particleSystem: system)
+                }
                 
             }
+           
+            
+            //addParticleSystem(particleSystem: system)
         }
+        //}
         self.fftMagnitudes = magnitudes
     }
     
