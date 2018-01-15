@@ -107,14 +107,16 @@ extension VisualViewController: SCNPhysicsContactDelegate{
 extension VisualViewController: MusicLoaderDelegate{
     func onPlay() {
         print("PLAY MUSIC")
-        addParticleSystem(particleSystem: self.particleSystem, name: "particle0")
+        addBox()
+        //addParticleSystem(particleSystem: self.particleSystem, name: "particle0")
         //addParticleSystem(particleSystem: self.particleSystem)
         //addBox()
         
     }
     
     func dealWithFFTMagnitudes(magnitudes: [Float]) {
-        updateParticleSystem(fftMagnitudes: magnitudes)
+        //updateParticleSystem(fftMagnitudes: magnitudes)
+        updateBox(fftMagnitudes: magnitudes)
         self.fftMagnitudes = magnitudes
     }
     
@@ -128,9 +130,18 @@ extension VisualViewController: MusicLoaderDelegate{
             return
         }
         for (index, magnitude) in fftMagnitudes.enumerated(){
-            if (self.fftMagnitudes.count > index){
-                let m = magnitude/self.fftMagnitudes[index]
-                (node!.geometry as! SCNBox).chamferRadius = CGFloat(m)
+            if (index == 0){
+                if (self.fftMagnitudes.count > index){
+                    let m = magnitude/self.fftMagnitudes[index]
+                    if (!m.isNaN && !m.isInfinite){
+                        let box = (node!.geometry as! SCNBox)
+                        SCNTransaction.begin()
+                        SCNTransaction.animationDuration = 2
+                        box.chamferRadius = CGFloat(m)
+                        //box.heightSegmentCount = Int(m.rounded())
+                        SCNTransaction.commit()
+                    }
+                }
             }
         }
     }
