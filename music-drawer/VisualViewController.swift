@@ -70,6 +70,7 @@ class VisualViewController: NSViewController {
     func addBox(){
         let boxGeometry = SCNBox(width: 5.0, height: 5.0, length: 5.0, chamferRadius: 1.0)
         let boxNode = SCNNode(geometry: boxGeometry)
+        boxNode.name = "box"
         addNode(node: boxNode)
     }
     
@@ -80,7 +81,9 @@ class VisualViewController: NSViewController {
 }
 
 extension VisualViewController: SCNSceneRendererDelegate{
-    
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        
+    }
 }
 
 extension VisualViewController: SCNPhysicsContactDelegate{
@@ -91,41 +94,40 @@ extension VisualViewController: SCNPhysicsContactDelegate{
 extension VisualViewController: MusicLoaderDelegate{
     func onPlay() {
         print("PLAY MUSIC")
-        addParticleSystem(particleSystem: self.particleSystem)
-        //addBox()
+        //addParticleSystem(particleSystem: self.particleSystem)
+        addBox()
         
     }
     
     func dealWithFFTMagnitudes(magnitudes: [Float]) {
         
-        // Remove existing particle systems
-        self.sceneView.scene?.rootNode.childNodes.forEach({ (node) in
-            node.removeAllParticleSystems()
-        })
+        let node = self.sceneView.scene?.rootNode.childNode(withName: "box", recursively: true)
         
-        //if let systems = self.sceneView.scene?.rootNode.childNodes[0].particleSystems{
-        //let system = systems[0]
+        // Remove existing particle systems
+//        self.sceneView.scene?.rootNode.childNodes.forEach({ (node) in
+//            node.removeAllParticleSystems()
+//        })
+//
+//        //if let systems = self.sceneView.scene?.rootNode.childNodes[0].particleSystems{
+//        //let system = systems[0]
         for (index, magnitude) in magnitudes.enumerated(){
-            let m = CGFloat(10*magnitude)
-            let system = self.particleSystem.copy() as! SCNParticleSystem
-            system.particleColor = NSColor(calibratedRed: m, green: m*m, blue: m*m*m, alpha: m)
-            
-            //system.acceleration = SCNVector3Make(m, m*m, m*m*m)
-            
-            
-            if (self.fftMagnitudes.count > index)
-            {
-                if (magnitude > 2*self.fftMagnitudes[index]){
-                    let factor:Float = 20.0
-                    system.particleLifeSpan = CGFloat(magnitude*factor)
-                    addParticleSystem(particleSystem: system)
-                }
-                
+            if (self.fftMagnitudes.count > index){
+                let m = magnitude/self.fftMagnitudes[index]
+                (node?.geometry as! SCNBox).chamferRadius = CGFloat(m)
             }
-           
-            
-            //addParticleSystem(particleSystem: system)
-        }
+//            let m = CGFloat(10*magnitude)
+//            let system = self.particleSystem.copy() as! SCNParticleSystem
+//            system.particleColor = NSColor(calibratedRed: m, green: m*m, blue: m*m*m, alpha: m)
+//
+//            if (self.fftMagnitudes.count > index)
+//            {
+//                if (magnitude > 2*self.fftMagnitudes[index]){
+//                    let factor:Float = 20.0
+//                    system.particleLifeSpan = CGFloat(magnitude*factor)
+//                    addParticleSystem(particleSystem: system)
+//                }
+//            }
+       }
         //}
         self.fftMagnitudes = magnitudes
     }

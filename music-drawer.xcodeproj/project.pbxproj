@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C609CFD200D07C300081F4E /* Rain.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 7C609CFC200D07C300081F4E /* Rain.scnp */; };
 		7C6FA50C1E9DD70F006BF711 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6FA50B1E9DD70F006BF711 /* AppDelegate.swift */; };
 		7C6FA50E1E9DD70F006BF711 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6FA50D1E9DD70F006BF711 /* ViewController.swift */; };
 		7C6FA5101E9DD70F006BF711 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C6FA50F1E9DD70F006BF711 /* Assets.xcassets */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7C609CFC200D07C300081F4E /* Rain.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Rain.scnp; sourceTree = "<group>"; };
 		7C6FA5081E9DD70F006BF711 /* music-drawer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "music-drawer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6FA50B1E9DD70F006BF711 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C6FA50D1E9DD70F006BF711 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C609CFB200D07A500081F4E /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				7CA24483200BD97300020BFE /* spark.png */,
+				7CA24484200BD97300020BFE /* Explosion.scnp */,
+				7C609CFC200D07C300081F4E /* Rain.scnp */,
+			);
+			path = Particles;
+			sourceTree = "<group>";
+		};
 		7C6FA4FF1E9DD70F006BF711 = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +112,7 @@
 		7C6FA50A1E9DD70F006BF711 /* music-drawer */ = {
 			isa = PBXGroup;
 			children = (
+				7C609CFB200D07A500081F4E /* Particles */,
 				7C6FA50B1E9DD70F006BF711 /* AppDelegate.swift */,
 				7C6FA50D1E9DD70F006BF711 /* ViewController.swift */,
 				7CA24471200BA66B00020BFE /* angel_beats_short.wav */,
@@ -112,8 +125,6 @@
 				7CA2447B200BB3A600020BFE /* VisualViewController.swift */,
 				7CA2447D200BB58E00020BFE /* MusicManager.swift */,
 				7CA24481200BBBB000020BFE /* TabViewController.swift */,
-				7CA24483200BD97300020BFE /* spark.png */,
-				7CA24484200BD97300020BFE /* Explosion.scnp */,
 			);
 			path = "music-drawer";
 			sourceTree = "<group>";
@@ -226,6 +237,7 @@
 				7C6FA5131E9DD70F006BF711 /* Main.storyboard in Resources */,
 				7CA24472200BA66B00020BFE /* angel_beats_short.wav in Resources */,
 				7CA24486200BD97300020BFE /* Explosion.scnp in Resources */,
+				7C609CFD200D07C300081F4E /* Rain.scnp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
