@@ -21,6 +21,8 @@
 		7CA2447C200BB3A600020BFE /* VisualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2447B200BB3A600020BFE /* VisualViewController.swift */; };
 		7CA2447E200BB58E00020BFE /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA2447D200BB58E00020BFE /* MusicManager.swift */; };
 		7CA24482200BBBB000020BFE /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA24481200BBBB000020BFE /* TabViewController.swift */; };
+		7CA24485200BD97300020BFE /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 7CA24483200BD97300020BFE /* spark.png */; };
+		7CA24486200BD97300020BFE /* Explosion.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 7CA24484200BD97300020BFE /* Explosion.scnp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,8 @@
 		7CA2447B200BB3A600020BFE /* VisualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualViewController.swift; sourceTree = "<group>"; };
 		7CA2447D200BB58E00020BFE /* MusicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
 		7CA24481200BBBB000020BFE /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
+		7CA24483200BD97300020BFE /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		7CA24484200BD97300020BFE /* Explosion.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Explosion.scnp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +112,8 @@
 				7CA2447B200BB3A600020BFE /* VisualViewController.swift */,
 				7CA2447D200BB58E00020BFE /* MusicManager.swift */,
 				7CA24481200BBBB000020BFE /* TabViewController.swift */,
+				7CA24483200BD97300020BFE /* spark.png */,
+				7CA24484200BD97300020BFE /* Explosion.scnp */,
 			);
 			path = "music-drawer";
 			sourceTree = "<group>";
@@ -216,8 +222,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C6FA5101E9DD70F006BF711 /* Assets.xcassets in Resources */,
+				7CA24485200BD97300020BFE /* spark.png in Resources */,
 				7C6FA5131E9DD70F006BF711 /* Main.storyboard in Resources */,
 				7CA24472200BA66B00020BFE /* angel_beats_short.wav in Resources */,
+				7CA24486200BD97300020BFE /* Explosion.scnp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

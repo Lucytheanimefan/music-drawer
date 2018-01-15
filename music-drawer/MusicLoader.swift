@@ -72,7 +72,7 @@ class MusicLoader: NSObject {
             audioNode.play()
             
             os_log("%@: PLAY", self.description)
-            //delegate.onPlay()
+            delegate.onPlay()
         }
         catch
         {

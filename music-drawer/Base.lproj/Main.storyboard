@@ -42,16 +42,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="521" height="352"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <sceneView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tMy-qP-w2T">
+                            <sceneView translatesAutoresizingMaskIntoConstraints="NO" id="tMy-qP-w2T">
                                 <rect key="frame" x="0.0" y="0.0" width="521" height="352"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </sceneView>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="tMy-qP-w2T" firstAttribute="leading" secondItem="fKE-eu-8eu" secondAttribute="leading" id="dPI-Vl-Kkv"/>
+                            <constraint firstItem="tMy-qP-w2T" firstAttribute="top" secondItem="fKE-eu-8eu" secondAttribute="top" id="fk6-KL-uzc"/>
+                            <constraint firstAttribute="trailing" secondItem="tMy-qP-w2T" secondAttribute="trailing" id="iPR-UT-gJz"/>
+                            <constraint firstAttribute="bottom" secondItem="tMy-qP-w2T" secondAttribute="bottom" id="pwV-ud-cTN"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="sceneView" destination="tMy-qP-w2T" id="63U-95-hQw"/>
+                    </connections>
                 </viewController>
                 <customObject id="zmL-rh-5fG" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="723" y="-376"/>
+            <point key="canvasLocation" x="722.5" y="-376"/>
         </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
