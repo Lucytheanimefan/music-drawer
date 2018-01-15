@@ -15,6 +15,10 @@ class VisualViewController: NSViewController {
     var musicLoader: MusicLoader!
     @IBOutlet weak var sceneView: SCNView!
     
+    var fftMagnitudes = [Float]()
+    
+    let particleSystem = SCNParticleSystem(named: "Explosion", inDirectory: nil)!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.sceneView.delegate = self
@@ -28,12 +32,15 @@ class VisualViewController: NSViewController {
     }
     
     override func viewDidAppear() {
-        addParticleSystem()
         self.musicLoader = MusicLoader()
         musicLoader.delegate = self
         if (MusicManager.shared.audioFile != nil){
             musicLoader.begin(file: MusicManager.shared.audioFile)
         }
+    }
+    
+    override func viewDidDisappear() {
+        self.musicLoader.cancel()
     }
     
     func addAmbientLight(){
@@ -53,13 +60,11 @@ class VisualViewController: NSViewController {
         addNode(node: omniLightNode)
     }
     
-    func addParticleSystem(){
-        if let particleSystem = SCNParticleSystem(named: "Explosion", inDirectory: nil){
-            let systemNode = SCNNode()
-            systemNode.addParticleSystem(particleSystem)
-            //systemNode.position = SCNVector3Make(0, 0, 0)
-            addNode(node: systemNode)
-        }
+    func addParticleSystem(particleSystem: SCNParticleSystem){
+        let systemNode = SCNNode()
+        systemNode.addParticleSystem(particleSystem)
+        addNode(node: systemNode)
+        
     }
     
     func addBox(){
@@ -86,12 +91,26 @@ extension VisualViewController: SCNPhysicsContactDelegate{
 extension VisualViewController: MusicLoaderDelegate{
     func onPlay() {
         print("PLAY MUSIC")
-        addBox()
+        //addBox()
        
     }
     
     func dealWithFFTMagnitudes(magnitudes: [Float]) {
-        
+        for (index, magnitude) in magnitudes.enumerated(){
+            if (self.fftMagnitudes.count > index)
+            {
+                let factor = (magnitude > 1.5*self.fftMagnitudes[index]) ? 1 : 1
+                addMagnitudeParticleSystem(magnitude: Float(factor)*magnitude)
+                
+            }
+        }
+        self.fftMagnitudes = magnitudes
+    }
+    
+    func addMagnitudeParticleSystem(magnitude:Float){
+        let particle = self.particleSystem.copy() as! SCNParticleSystem
+        particle.birthRate = CGFloat(magnitude)
+        addParticleSystem(particleSystem: particle)
     }
     
 }

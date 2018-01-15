@@ -742,36 +742,26 @@
                 <viewController title="Landing" id="XfG-lQ-9wD" customClass="ViewController" customModule="music_drawer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="228"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z9G-FC-zS8">
-                                <rect key="frame" x="314" y="182" width="84" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Upload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XZK-1J-Owp">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="uploadMusic:" target="XfG-lQ-9wD" id="nRc-cz-tRz"/>
-                                </connections>
-                            </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ykv-Uq-IlJ">
-                                <rect key="frame" x="18" y="191" width="296" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ykv-Uq-IlJ">
+                                <rect key="frame" x="18" y="191" width="364" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="360" id="HlG-qT-nQB"/>
+                                </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="1pz-3I-9N7">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qjF-jJ-f1H">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qjF-jJ-f1H">
                                 <rect key="frame" x="20" y="12" width="440" height="165"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <clipView key="contentView" ambiguous="YES" id="36H-94-Exe">
+                                <clipView key="contentView" id="36H-94-Exe">
                                     <rect key="frame" x="1" y="1" width="438" height="163"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView ambiguous="YES" editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="rKK-D2-Stx">
+                                        <textView editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="rKK-D2-Stx">
                                             <rect key="frame" x="0.0" y="0.0" width="438" height="163"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -791,7 +781,30 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z9G-FC-zS8">
+                                <rect key="frame" x="382" y="180" width="84" height="32"/>
+                                <buttonCell key="cell" type="push" title="Upload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XZK-1J-Owp">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="uploadMusic:" target="XfG-lQ-9wD" id="nRc-cz-tRz"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Z9G-FC-zS8" secondAttribute="trailing" constant="20" id="2qx-HE-JX7"/>
+                            <constraint firstItem="Z9G-FC-zS8" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="3MS-0E-bLm"/>
+                            <constraint firstAttribute="bottom" secondItem="qjF-jJ-f1H" secondAttribute="bottom" constant="12" id="4Zi-jX-MhG"/>
+                            <constraint firstItem="Ykv-Uq-IlJ" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="Cgd-f2-3w0"/>
+                            <constraint firstItem="Z9G-FC-zS8" firstAttribute="leading" secondItem="Ykv-Uq-IlJ" secondAttribute="trailing" constant="8" id="FCm-YA-97T"/>
+                            <constraint firstItem="Ykv-Uq-IlJ" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="QDX-Xf-zIq"/>
+                            <constraint firstItem="qjF-jJ-f1H" firstAttribute="leading" secondItem="Ykv-Uq-IlJ" secondAttribute="leading" id="Tfn-bP-9ce"/>
+                            <constraint firstItem="qjF-jJ-f1H" firstAttribute="trailing" secondItem="Z9G-FC-zS8" secondAttribute="trailing" id="eTo-en-fFZ"/>
+                            <constraint firstItem="qjF-jJ-f1H" firstAttribute="top" secondItem="Ykv-Uq-IlJ" secondAttribute="bottom" constant="14" id="nkB-ea-Qzh"/>
+                            <constraint firstItem="Z9G-FC-zS8" firstAttribute="leading" secondItem="Ykv-Uq-IlJ" secondAttribute="trailing" constant="8" id="rzz-Sz-3rL"/>
+                            <constraint firstItem="qjF-jJ-f1H" firstAttribute="top" secondItem="Z9G-FC-zS8" secondAttribute="bottom" constant="10" id="sgb-rT-LsN"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="debugView" destination="rKK-D2-Stx" id="5Vj-uL-fjU"/>
