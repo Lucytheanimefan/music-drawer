@@ -48,6 +48,9 @@ class MusicLoader: NSObject {
     }
     
     func cancel(){
+        guard MusicManager.shared.audioFile != nil else {
+            return
+        }
         audioEngine.inputNode?.removeTap(onBus: 0)
         audioEngine.detach(audioNode)
     }

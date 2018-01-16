@@ -25,6 +25,8 @@ class VisualViewController: NSViewController {
             return system
     }()
     
+    var nodes:[SCNNode] = [SCNNode]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.sceneView.delegate = self
@@ -78,16 +80,20 @@ class VisualViewController: NSViewController {
         return systemNode
     }
     
-    func addBox(){
-        let boxGeometry = SCNBox(width: 5.0, height: 5.0, length: 5.0, chamferRadius: 1.0)
+    func addBox(position: SCNVector3, name:String){
+        let boxGeometry = SCNBox(width: 0.10, height: 0.10, length: 0.10, chamferRadius: 1.0)
         let boxNode = SCNNode(geometry: boxGeometry)
-        boxNode.name = "box"
+        boxNode.name = name
+        boxNode.position = position
+        self.nodes.append(boxNode)
         addNode(node: boxNode)
     }
     
     func addNode(node:SCNNode){
         sceneView.scene?.rootNode.addChildNode(node)
     }
+    
+    
     
 }
 
@@ -107,7 +113,12 @@ extension VisualViewController: SCNPhysicsContactDelegate{
 extension VisualViewController: MusicLoaderDelegate{
     func onPlay() {
         print("PLAY MUSIC")
-        addBox()
+        let incrementAngle = CGFloat((8*Float.pi) / Float(Constants.FRAME_COUNT))
+        for i in 0..<(Constants.FRAME_COUNT/2) {
+            let x = cos(CGFloat(i/2) * incrementAngle)
+            let y = sin(CGFloat(i/2) * incrementAngle)
+            addBox(position: SCNVector3Make(x, y, 0), name: "box\(i)")
+        }
         //addParticleSystem(particleSystem: self.particleSystem, name: "particle0")
         //addParticleSystem(particleSystem: self.particleSystem)
         //addBox()
@@ -125,25 +136,28 @@ extension VisualViewController: MusicLoaderDelegate{
     }
     
     func updateBox(fftMagnitudes:[Float]){
-        let node = getNode(name: "box")
-        guard node != nil else{
-            return
-        }
+        //        let node = getNode(name: "box")
+        //        guard node != nil else{
+        //            return
+        //        }
         for (index, magnitude) in fftMagnitudes.enumerated(){
-            if (index == 0){
-                if (self.fftMagnitudes.count > index){
-                    let m = magnitude/self.fftMagnitudes[index]
-                    if (!m.isNaN && !m.isInfinite){
-                        let box = (node!.geometry as! SCNBox)
-                        SCNTransaction.begin()
-                        SCNTransaction.animationDuration = 2
-                        box.chamferRadius = CGFloat(m)
-                        //box.heightSegmentCount = Int(m.rounded())
-                        SCNTransaction.commit()
-                    }
+            let node = self.nodes[index]/*getNode(name: "box\(index)")*/ //{
+            if (self.fftMagnitudes.count > index){
+                let m = magnitude*100// /self.fftMagnitudes[index]
+                let size = CGFloat(sqrt(magnitude))// /self.fftMagnitudes[index]
+                if (!m.isNaN && !m.isInfinite){
+                    let box = (node.geometry as! SCNBox)
+                    SCNTransaction.begin()
+                    SCNTransaction.animationDuration = 1
+                    box.chamferRadius = CGFloat(m)
+                    box.setSize(magnitude: size)
+                    SCNTransaction.commit()
+    
                 }
             }
+            
         }
+        // }
     }
     
     func updateParticleSystem(fftMagnitudes:[Float]){
@@ -176,4 +190,14 @@ extension VisualViewController: MusicLoaderDelegate{
             }
         }
     }
+}
+
+extension SCNBox{
+    
+    func setSize(magnitude:CGFloat){
+        self.width = magnitude
+        self.height = magnitude
+        self.length = magnitude
+    }
+    
 }
