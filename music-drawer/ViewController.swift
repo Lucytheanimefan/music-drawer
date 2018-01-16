@@ -33,12 +33,21 @@ class ViewController: NSViewController {
         panel.allowsMultipleSelection = false;
         panel.allowedFileTypes        = ["wav", "mp3"];
         
-        if (panel.runModal() == NSModalResponseOK){
-            if let filePath = panel.url {
-                MusicManager.shared.audioFile = filePath
-                self.fileNameLabel.stringValue = filePath.absoluteString
+        panel.beginSheetModal(for: self.view.window!) { (response) in
+            if (response == NSModalResponseOK){
+                if let filePath = panel.url {
+                    MusicManager.shared.audioFile = filePath
+                    self.fileNameLabel.stringValue = filePath.absoluteString
+                }
             }
         }
+        
+//        if (panel.runModal() == NSModalResponseOK){
+//            if let filePath = panel.url {
+//                MusicManager.shared.audioFile = filePath
+//                self.fileNameLabel.stringValue = filePath.absoluteString
+//            }
+//        }
     }
     
  
