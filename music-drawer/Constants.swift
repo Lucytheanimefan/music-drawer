@@ -13,7 +13,7 @@ enum AppStoryboard : String {
     case Main = "Main"
     
     var instance : NSStoryboard {
-        return NSStoryboard(name: self.rawValue, bundle: Bundle.main)
+        return NSStoryboard(name: NSStoryboard.Name(rawValue: self.rawValue), bundle: Bundle.main)
     }
 }
 

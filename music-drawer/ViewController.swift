@@ -34,20 +34,14 @@ class ViewController: NSViewController {
         panel.allowedFileTypes        = ["wav", "mp3"];
         
         panel.beginSheetModal(for: self.view.window!) { (response) in
-            if (response == NSModalResponseOK){
+            if (response == NSApplication.ModalResponse.OK){
                 if let filePath = panel.url {
                     MusicManager.shared.audioFile = filePath
                     self.fileNameLabel.stringValue = filePath.absoluteString
                 }
             }
         }
-        
-//        if (panel.runModal() == NSModalResponseOK){
-//            if let filePath = panel.url {
-//                MusicManager.shared.audioFile = filePath
-//                self.fileNameLabel.stringValue = filePath.absoluteString
-//            }
-//        }
+
     }
     
  

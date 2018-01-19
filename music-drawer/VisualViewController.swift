@@ -13,10 +13,25 @@ import os.log
 
 class VisualViewController: NSViewController {
     
+    //typealias myFunc = (_ fftMagnitudes:[Float]) -> Void
+    
     var musicLoader: MusicLoader!
     @IBOutlet weak var sceneView: SCNView!
     
     var fftMagnitudes = [Float]()
+    
+    @IBOutlet weak var settingsTableView: NSTableView!
+    
+    let vizOptions:[String] = ["Sphere", "Particle"]
+    
+    lazy var visualizationOptions:[String:([Float])->Void] =
+        {
+            return ["Sphere":self.boxUpdate, "Particle": self.particleUpdate]
+    }()
+    
+    lazy var setupOptions:[String:(()->Void)] = {
+        return ["Sphere": self.boxSetup]
+    }()
     
     lazy var particleSystem:SCNParticleSystem =
         {
@@ -26,6 +41,33 @@ class VisualViewController: NSViewController {
     }()
     
     var nodes:[SCNNode] = [SCNNode]()
+    
+    private var _currentRunningViz: (([Float])->Void)? = nil
+    var currentRunningVisualization: (([Float])->Void)? {
+        get {
+            return self._currentRunningViz
+        }
+        
+        set{
+            self._currentRunningViz = newValue
+            self.sceneView.scene?.rootNode.enumerateChildNodes({ (node, stop) in
+                node.removeFromParentNode()
+            })
+            
+        }
+    }
+    
+    var initialSceneSetup:(()->Void)?
+    
+    lazy var boxUpdate: ([Float])->Void = {
+        (arg: [Float]) -> Void in
+        self.updateBox(fftMagnitudes: arg)
+    }
+    
+    lazy var particleUpdate: ([Float])->Void = {
+        (arg: [Float]) -> Void in
+        self.updateParticleSystem(fftMagnitudes: arg)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +79,8 @@ class VisualViewController: NSViewController {
         self.sceneView.backgroundColor = .black
         addAmbientLight()
         addOmniLight()
+        self.initialSceneSetup = self.setupOptions["Sphere"]!
+        self.currentRunningVisualization = self.visualizationOptions["Sphere"]
     }
     
     override func viewDidAppear() {
@@ -80,6 +124,7 @@ class VisualViewController: NSViewController {
         return systemNode
     }
     
+    
     func addBox(position: SCNVector3, name:String){
         let boxGeometry = SCNBox(width: 0.10, height: 0.10, length: 0.10, chamferRadius: 1.0)
         let boxNode = SCNNode(geometry: boxGeometry)
@@ -92,8 +137,6 @@ class VisualViewController: NSViewController {
     func addNode(node:SCNNode){
         sceneView.scene?.rootNode.addChildNode(node)
     }
-    
-    
     
 }
 
@@ -113,21 +156,16 @@ extension VisualViewController: SCNPhysicsContactDelegate{
 extension VisualViewController: MusicLoaderDelegate{
     func onPlay() {
         print("PLAY MUSIC")
-        let incrementAngle = CGFloat((8*Float.pi) / Float(Constants.FRAME_COUNT))
-        for i in 0..<(Constants.FRAME_COUNT/2) {
-            let x = cos(CGFloat(i/2) * incrementAngle)
-            let y = sin(CGFloat(i/2) * incrementAngle)
-            addBox(position: SCNVector3Make(x, y, 0), name: "box\(i)")
-        }
-        //addParticleSystem(particleSystem: self.particleSystem, name: "particle0")
-        //addParticleSystem(particleSystem: self.particleSystem)
-        //addBox()
-        
+        self.initialSceneSetup!()
     }
     
     func dealWithFFTMagnitudes(magnitudes: [Float]) {
+        guard self.currentRunningVisualization != nil else {
+            return
+        }
+        self.currentRunningVisualization!(magnitudes)
         //updateParticleSystem(fftMagnitudes: magnitudes)
-        updateBox(fftMagnitudes: magnitudes)
+        //updateBox(fftMagnitudes: magnitudes)
         self.fftMagnitudes = magnitudes
     }
     
@@ -135,11 +173,17 @@ extension VisualViewController: MusicLoaderDelegate{
         return self.sceneView.scene?.rootNode.childNode(withName: name, recursively: true)
     }
     
-    func updateBox(fftMagnitudes:[Float]){
-        //        let node = getNode(name: "box")
-        //        guard node != nil else{
-        //            return
-        //        }
+    func boxSetup(){
+        print("BOX SETUP CALLED")
+        let incrementAngle = CGFloat((8*Float.pi) / Float(Constants.FRAME_COUNT))
+        for i in 0..<(Constants.FRAME_COUNT/2) {
+            let x = cos(CGFloat(i/2) * incrementAngle)
+            let y = sin(CGFloat(i/2) * incrementAngle)
+            addBox(position: SCNVector3Make(x, y, 0), name: "box\(i)")
+        }
+    }
+    
+    func updateBox(fftMagnitudes:[Float]) -> Void{
         for (index, magnitude) in fftMagnitudes.enumerated(){
             let node = self.nodes[index]/*getNode(name: "box\(index)")*/ //{
             if (self.fftMagnitudes.count > index){
@@ -152,19 +196,16 @@ extension VisualViewController: MusicLoaderDelegate{
                     box.chamferRadius = CGFloat(m)
                     box.setSize(magnitude: size)
                     SCNTransaction.commit()
-    
                 }
             }
-            
         }
-        // }
     }
     
-    func updateParticleSystem(fftMagnitudes:[Float]){
+    func updateParticleSystem(fftMagnitudes:[Float]) -> Void{
         let nodes = (self.sceneView.scene?.rootNode.childNodes)!
         
         for (index, magnitude) in fftMagnitudes.enumerated(){
-            guard (nodes.count) > index else {
+            guard (nodes.count) > index && nodes[index].particleSystems != nil else {
                 let newSystem = self.particleSystem.copy() as! SCNParticleSystem
                 addParticleSystem(particleSystem: newSystem, name: "particle\(index)")
                 return
@@ -190,6 +231,39 @@ extension VisualViewController: MusicLoaderDelegate{
             }
         }
     }
+}
+
+extension VisualViewController: NSTableViewDataSource{
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return self.vizOptions.count
+    }
+    
+}
+
+extension VisualViewController: NSTableViewDelegate{
+    
+    
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if let view = tableView.makeView(withIdentifier: .init("settingsCellID"), owner: nil) as? NSTableCellView
+        {
+            view.textField?.stringValue = self.vizOptions[row]
+            return view
+        }
+        return nil
+    }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        let row = self.settingsTableView.selectedRow
+        let option = self.vizOptions[row]
+        if let setup = self.setupOptions[option]
+        {
+            setup()
+        }
+        self.currentRunningVisualization = self.visualizationOptions[option]!
+    }
+    
 }
 
 extension SCNBox{

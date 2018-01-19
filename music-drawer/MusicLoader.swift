@@ -40,9 +40,9 @@ class MusicLoader: NSObject {
         }
         let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat,
                                       frameCapacity: AVAudioFrameCount(audioFile.length))
-        try? audioFile.read(into: buffer)
-        audioEngine.connect(audioNode, to: audioEngine.mainMixerNode, format: buffer.format)
-        audioNode.scheduleBuffer(buffer, at: nil, options: .loops, completionHandler: nil)
+        try? audioFile.read(into: buffer!)
+        audioEngine.connect(audioNode, to: audioEngine.mainMixerNode, format: buffer?.format)
+        audioNode.scheduleBuffer(buffer!, at: nil, options: .loops, completionHandler: nil)
         retrieveAudioBuffer()
         
     }
@@ -51,7 +51,7 @@ class MusicLoader: NSObject {
         guard MusicManager.shared.audioFile != nil else {
             return
         }
-        audioEngine.inputNode?.removeTap(onBus: 0)
+        audioEngine.inputNode.removeTap(onBus: 0)
         audioEngine.detach(audioNode)
     }
     
@@ -82,10 +82,10 @@ class MusicLoader: NSObject {
         }
     }
     
-    private func fftTransform(buffer: AVAudioPCMBuffer) -> [Float] {
-        print("FFT transform")
-        let frameCount = Constants.FRAME_COUNT//buffer.frameLength
-        //print("Frame count: \(frameCount)")
+    private func fftTransform(buffer: AVAudioPCMBuffer) /*-> [Float]*/ {
+        //print("FFT transform")
+        let frameCount = Constants.FRAME_COUNT //buffer.frameLength
+
         let log2n = UInt(round(log2(Double(frameCount))))
         let bufferSizePOT = Int(1 << log2n)
         let inputCount = bufferSizePOT / 2
@@ -98,8 +98,6 @@ class MusicLoader: NSObject {
         // This is the value the web app uses
         let windowSize = bufferSizePOT
         
-        
-        //print("Window size: \(windowSize)")
         var transferBuffer = [Float](repeating: 0, count: windowSize)
         var window = [Float](repeating: 0, count: windowSize)
         
@@ -130,11 +128,10 @@ class MusicLoader: NSObject {
             //os_log("%@: FFT magnitudes: %@", self.description,  normalizedMagnitudes)
         //#endif
         
-        let buffer = Buffer(elements: normalizedMagnitudes)
-        
+        //let buffer = Buffer(elements: normalizedMagnitudes)
         vDSP_destroy_fftsetup(fftSetup)
         
-        return buffer.elements
+        //return buffer.elements
     }
     
     
